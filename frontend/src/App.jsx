@@ -7,7 +7,7 @@ function App(){
   return (
     <div>
       <h1>Arts Forum</h1>
-
+      <h2>Requests</h2>
       {posts.map((post) => (
         <div key={post.id}>
           <h3>{post.title}</h3>
