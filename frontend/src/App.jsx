@@ -30,29 +30,28 @@ function App() {
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
 
-function handleSubmit(e){
-  e.preventDefault();
-  console.log("submitted");
-  const newRequest = {
-    id: Date.now(),
-    initiator,
-    email,
-    requested,
-    description,
-    tag,
-  };
+  function handleSubmit(e) {
+    e.preventDefault();
+    const newRequest = {
+      id: Date.now(),
+      initiator,
+      email,
+      requested,
+      description,
+      tag,
+    };
 
-  setRequests([newRequest, ...requests]);
+    setRequests([newRequest, ...requests]);
 
-  setInitiator("");
-  setEmail("");
-  setRequested("");
-  setDescription("");
-  setTag("");
-}
+    setInitiator("");
+    setEmail("");
+    setRequested("");
+    setDescription("");
+    setTag("");
+  }
 
   return (
-    <div>
+    <div style={{ maxWidth: "600px", margin: "0 auto", fontFamily: "Arial" }}>
       <h1>Arts Forum</h1>
       <h2>Requests</h2>
 
@@ -69,17 +68,25 @@ function handleSubmit(e){
         tag={tag}
         setTag={setTag}
       />
-
-      {requests.map((request) => (
-        <Request
-          key={request.id}
-          email={request.email}
-          initiator={request.initiator}
-          requested={request.requested}
-          description={request.description}
-          tag={request.tag}
-        />
-      ))}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          gap: "16px",
+        }}
+      >
+        {requests.map((request) => (
+          <Request
+            style={{ display: "flex" }}
+            key={request.id}
+            email={request.email}
+            initiator={request.initiator}
+            requested={request.requested}
+            description={request.description}
+            tag={request.tag}
+          />
+        ))}
+      </div>
     </div>
   );
 }

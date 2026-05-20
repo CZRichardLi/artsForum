@@ -12,7 +12,19 @@ function CreateRequest({
   setTag,
 }) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        border: "1px solid #ccc",
+        borderRadius: "10px",
+        padding: "16px",
+        marginBottom: "20px",
+        backgroundColor: "#f9f9f9",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+      }}
+    >
       <input
         type="text"
         placeholder="Name"
