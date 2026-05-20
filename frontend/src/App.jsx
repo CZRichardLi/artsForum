@@ -1,10 +1,10 @@
 import Request from "./components/Request";
-import { useState } from "react";
 import CreateRequest from "./components/CreateRequest";
+import { useState, useEffect } from "react";
 
 function App() {
   // fake posts for demonstration
-  const [requests, setRequests] = useState([
+  /* const [requests, setRequests] = useState([
     {
       id: 1,
       initiator: "Edmond",
@@ -22,7 +22,14 @@ function App() {
         "Hi! The Jazz Ensemble needs someone who can record our concert. Contact me if you can help with it. Thank you!",
       tags: ["Film and Media Studies"],
     },
-  ]);
+  ]); */
+  const [requests, setRequests] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/requests")
+      .then((res) => res.json())
+      .then((data) => setRequests(data));
+  }, []);
 
   const [initiator, setInitiator] = useState("");
   const [email, setEmail] = useState("");
@@ -41,7 +48,17 @@ function App() {
       tags,
     };
 
-    setRequests([newRequest, ...requests]);
+    fetch("http://localhost:3001/requests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newRequest),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setRequests((prev) => [data, ...prev]);
+      });
 
     setInitiator("");
     setEmail("");
