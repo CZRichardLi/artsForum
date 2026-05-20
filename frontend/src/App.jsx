@@ -11,7 +11,7 @@ function App() {
       email: "edmond@placeholder.edu",
       requested: "Actors",
       description: "I need actors for my short film.",
-      tag: "Theator",
+      tags: ["Theater"],
     },
     {
       id: 2,
@@ -20,7 +20,7 @@ function App() {
       requested: "Camera operator",
       description:
         "Hi! The Jazz Ensemble needs someone who can record our concert. Contact me if you can help with it. Thank you!",
-      tag: "Film and Media",
+      tags: ["Film and Media Studies"],
     },
   ]);
 
@@ -28,7 +28,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [requested, setRequested] = useState("");
   const [description, setDescription] = useState("");
-  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState([]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -38,7 +38,7 @@ function App() {
       email,
       requested,
       description,
-      tag,
+      tags,
     };
 
     setRequests([newRequest, ...requests]);
@@ -47,7 +47,7 @@ function App() {
     setEmail("");
     setRequested("");
     setDescription("");
-    setTag("");
+    setTags([]);
   }
 
   return (
@@ -65,13 +65,13 @@ function App() {
         setRequested={setRequested}
         description={description}
         setDescription={setDescription}
-        tag={tag}
-        setTag={setTag}
+        tags={tags}
+        setTags={setTags}
       />
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "16px",
         }}
       >
@@ -83,7 +83,7 @@ function App() {
             initiator={request.initiator}
             requested={request.requested}
             description={request.description}
-            tag={request.tag}
+            tags={request.tags}
           />
         ))}
       </div>

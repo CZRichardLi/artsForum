@@ -1,9 +1,9 @@
-function Request({ id, initiator, email, requested, description, tag }) {
+function Request({ id, initiator, email, requested, description, tags }) {
   // initiator: User who started the request;
   // email: Email address of the user;
   // description: Description of the project;
   // requested: Job requested by the user;
-  // tag: To which fields the request is related.
+  // tags: To which fields the request is related.
   return (
     <div
       style={{
@@ -33,9 +33,20 @@ function Request({ id, initiator, email, requested, description, tag }) {
       <h3>
         <strong>Requested role(s):</strong> {requested}
       </h3>
-      <p>
-        <strong>Department(s):</strong> {tag}
-      </p>
+      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        {tags.map((tag) => (
+          <span
+            key={tag}
+            style={{
+              border: "1px solid gray",
+              borderRadius: "999px",
+              padding: "4px 10px",
+            }}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

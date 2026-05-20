@@ -8,9 +8,26 @@ function CreateRequest({
   setRequested,
   description,
   setDescription,
-  tag,
-  setTag,
+  tags,
+  setTags,
 }) {
+  const departments = [
+    "Arts",
+    "Art History",
+    "Creative Writing",
+    "Film and Media Studies",
+    "Music",
+    "Theater",
+    "Other",
+  ];
+
+  function handleTagChange(department) {
+    if (tags.includes(department)) {
+      setTags(tags.filter((tag) => tag !== department));
+    } else {
+      setTags([...tags, department]);
+    }
+  }
   return (
     <form
       onSubmit={handleSubmit}
@@ -52,12 +69,36 @@ function CreateRequest({
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <input
-        type="text"
-        placeholder="Department(s)"
-        value={tag}
-        onChange={(e) => setTag(e.target.value)}
-      />
+      <div>
+        <p>Departments:</p>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+          }}
+        >
+          {departments.map((department) => (
+            <label
+              key={department}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={tags.includes(department)}
+                onChange={() => handleTagChange(department)}
+              />
+
+              {department}
+            </label>
+          ))}
+        </div>
+      </div>
 
       <button type="submit">Create Request</button>
     </form>
