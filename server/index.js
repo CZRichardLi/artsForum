@@ -9,7 +9,20 @@ app.use(express.json());
 const pool = require("./db");
 
 app.get("/requests", async (req, res) => {
-  const result = await pool.query("SELECT * FROM requests");
+  const { tags } = req.query;
+  if (tags) {
+    const tagArray = tags.split(",");
+    const result = await pool.query(
+      `
+      SELECT * FROM requests
+      WHERE tags && $1
+      `,
+      [tagArray],
+    );
+
+    return res.json(result.rows);
+  }
+  const result = await pool.query("SELECT * FROM requests")
   res.json(result.rows);
 });
 

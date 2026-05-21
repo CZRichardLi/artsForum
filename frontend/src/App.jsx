@@ -24,18 +24,37 @@ function App() {
     },
   ]); */
   const [requests, setRequests] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:3001/requests")
-      .then((res) => res.json())
-      .then((data) => setRequests(data));
-  }, []);
+  const [filterTags, setFilterTags] = useState([]);
+  const [formTags, setFormTags] = useState([]);
 
   const [initiator, setInitiator] = useState("");
   const [email, setEmail] = useState("");
   const [requested, setRequested] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState([]);
+  const departments = [
+    "Arts",
+    "Art History",
+    "Creative Writing",
+    "Film and Media Studies",
+    "Music",
+    "Theator",
+    "Other",
+  ];
+
+  useEffect(() => {
+    const url =
+      filterTags.length > 0
+        ? `http://localhost:3001/requests?tags=${filterTags.join(",")}`
+        : `http://localhost:3001/requests`;
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("API DATA:", data);
+
+        setRequests(Array.isArray(data) ? data : []);
+      });
+  }, [filterTags]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -45,7 +64,7 @@ function App() {
       email,
       requested,
       description,
-      tags,
+      tags: formTags,
     };
 
     fetch("http://localhost:3001/requests", {
@@ -64,7 +83,13 @@ function App() {
     setEmail("");
     setRequested("");
     setDescription("");
-    setTags([]);
+    setFormTags([]);
+  }
+
+  function toggleTag(tag) {
+    setFilterTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
   }
 
   return (
@@ -82,9 +107,55 @@ function App() {
         setRequested={setRequested}
         description={description}
         setDescription={setDescription}
-        tags={tags}
-        setTags={setTags}
+        tags={formTags}
+        setTags={setFormTags}
       />
+
+      {/* FILTER BUTTONS */}
+      <div
+        style={{
+          display: "flex",
+          gap: "8px",
+          flexWrap: "wrap",
+          marginBottom: "16px",
+        }}
+      >
+        {departments.map((tag) => {
+          const isActive = filterTags.includes(tag);
+
+          return (
+            <button
+              key={tag}
+              onClick={() => toggleTag(tag)}
+              style={{
+                padding: "6px 12px",
+                borderRadius: "20px",
+                border: "1px solid gray",
+                cursor: "pointer",
+                backgroundColor: isActive ? "black" : "white",
+                color: isActive ? "white" : "black",
+              }}
+            >
+              {tag}
+            </button>
+          );
+        })}
+
+        <button
+          onClick={() => setFilterTags([])}
+          style={{
+            padding: "6px 12px",
+            borderRadius: "20px",
+            border: "1px solid red",
+            color: "red",
+            backgroundColor: "white",
+          }}
+        >
+          Clear
+        </button>
+      </div>
+
+      {/* REQUEST GRID */}
       <div
         style={{
           display: "grid",
@@ -94,7 +165,7 @@ function App() {
       >
         {requests.map((request) => (
           <Request
-            style={{ display: "flex" }}
+            key={request.id}
             id={request.id}
             email={request.email}
             initiator={request.initiator}

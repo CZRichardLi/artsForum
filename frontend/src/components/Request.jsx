@@ -56,7 +56,7 @@ function Request({
         ))}
       </div>
       <button
-        style={{ color: "red", alignSelf: "flex-end"}}
+        style={{ color: "red", alignSelf: "flex-end" }}
         onClick={() => {
           fetch(`http://localhost:3001/requests/${id}`, {
             method: "DELETE",
