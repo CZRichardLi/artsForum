@@ -19,6 +19,14 @@ app.post("/requests", (req, res) => {
   res.json(newRequest);
 });
 
+app.delete("/requests/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  requests = requests.filter((request) => request.id !== id);
+
+  res.json({ success: true });
+});
+
 app.listen(3001, () => {
   console.log("Server running on http://localhost:3001");
 });

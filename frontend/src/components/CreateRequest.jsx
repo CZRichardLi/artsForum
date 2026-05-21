@@ -42,26 +42,34 @@ function CreateRequest({
         gap: "10px",
       }}
     >
-      <input
-        type="text"
-        placeholder="Name"
-        value={initiator}
-        onChange={(e) => setInitiator(e.target.value)}
-      />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Name"
+          value={initiator}
+          onChange={(e) => setInitiator(e.target.value)}
+        />
 
-      <input
-        type="text"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          type="text"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        type="text"
-        placeholder="Requested role(s)"
-        value={requested}
-        onChange={(e) => setRequested(e.target.value)}
-      />
+        <input
+          type="text"
+          placeholder="Requested role(s)"
+          value={requested}
+          onChange={(e) => setRequested(e.target.value)}
+        />
+      </div>
 
       <textarea
         placeholder="Description"

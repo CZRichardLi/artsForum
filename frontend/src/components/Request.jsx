@@ -1,4 +1,12 @@
-function Request({ id, initiator, email, requested, description, tags }) {
+function Request({
+  id,
+  initiator,
+  email,
+  requested,
+  description,
+  tags,
+  setRequests,
+}) {
   // initiator: User who started the request;
   // email: Email address of the user;
   // description: Description of the project;
@@ -47,6 +55,18 @@ function Request({ id, initiator, email, requested, description, tags }) {
           </span>
         ))}
       </div>
+      <button
+        style={{ color: "red", alignSelf: "flex-end"}}
+        onClick={() => {
+          fetch(`http://localhost:3001/requests/${id}`, {
+            method: "DELETE",
+          }).then(() => {
+            setRequests((prev) => prev.filter((request) => request.id !== id));
+          });
+        }}
+      >
+        Delete
+      </button>
     </div>
   );
 }

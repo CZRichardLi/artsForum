@@ -95,12 +95,13 @@ function App() {
         {requests.map((request) => (
           <Request
             style={{ display: "flex" }}
-            key={request.id}
+            id={request.id}
             email={request.email}
             initiator={request.initiator}
             requested={request.requested}
             description={request.description}
             tags={request.tags}
+            setRequests={setRequests}
           />
         ))}
       </div>
