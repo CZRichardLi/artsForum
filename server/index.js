@@ -6,23 +6,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// temporary in-memory "database"
-let requests = [];
+const pool = require("./db");
 
-app.get("/requests", (req, res) => {
-  res.json(requests);
+app.get("/requests", async (req, res) => {
+  const result = await pool.query("SELECT * FROM requests");
+  res.json(result.rows);
 });
 
-app.post("/requests", (req, res) => {
-  const newRequest = req.body;
-  requests.push(newRequest);
-  res.json(newRequest);
+app.post("/requests", async (req, res) => {
+  const { id, initiator, email, requested, description, tags } = req.body;
+  await pool.query(
+    `
+    INSERT INTO requests
+    (id, initiator, email, requested, description, tags)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    `,
+    [id, initiator, email, requested, description, tags],
+  );
+  res.json(req.body);
 });
 
-app.delete("/requests/:id", (req, res) => {
+app.delete("/requests/:id", async (req, res) => {
   const id = Number(req.params.id);
-
-  requests = requests.filter((request) => request.id !== id);
+  await pool.query("DELETE FROM requests WHERE id = $1", [id]);
 
   res.json({ success: true });
 });
